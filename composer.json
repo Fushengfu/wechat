@@ -1,0 +1,17 @@
+{
+    "name": "fushengfu/wechat",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Fushengfu\\Wechat\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "amulet",
+            "email": "shengfu8161980541@live.com"
+        }
+    ],
+    "require": {}
+}
