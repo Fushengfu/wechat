@@ -58,20 +58,6 @@ class Application extends Wechat {
   }
 
   /**
-   * 初始化配置
-   */
-  public function initConfig(array $options)
-  {
-    $proertys = get_object_vars($this);
-    
-    foreach ($proertys as $key => $value) {
-      if (isset($options[$key])) {
-        $this->{$key} = $options[$key];
-      }
-    }
-  }
-
-  /**
    * 获取access_token
    */
   public function getAccessToken(): string
@@ -80,7 +66,25 @@ class Application extends Wechat {
       return $this->suiteAccessToken;
     }
     
-    $this->http->post($this->baseUrl.'/cgi-bin/service/get_suite_token', json_encode([
+    $this->http->post('/cgi-bin/service/get_suite_token', json_encode([
+      "suite_id"=> $this->suiteId,
+      "suite_secret"=> $this->suiteSecret,
+      "suite_ticket"=> $this->suiteTicket
+    ]));
+    var_dump($this->http->getRequestHeaders());
+    return $this->http->getResponse();
+  }
+
+  /**
+   * 获取access_token
+   */
+  public function getSuiteAccessToken(): string
+  {
+    if ($this->suiteAccessToken) {
+      return $this->suiteAccessToken;
+    }
+    
+    $this->http->post('/cgi-bin/service/get_suite_token', json_encode([
       "suite_id"=> $this->suiteId,
       "suite_secret"=> $this->suiteSecret,
       "suite_ticket"=> $this->suiteTicket

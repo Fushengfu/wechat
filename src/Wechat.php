@@ -9,9 +9,25 @@ abstract class Wechat {
 
   protected $http;
 
+  protected $cache;
+
   protected $appid;
 
 	protected $secret;
+
+  protected $componentAppid;
+
+  protected $componentAppsecret;
+
+  protected $authorizerRefreshToken;
+
+	protected $accessToken;
+
+  protected $authorizerAccessToken;
+
+  protected $componentVerifyTicket;
+
+  protected $componentAccessToken;
 
   /**
    * 接口基础域名
@@ -24,14 +40,32 @@ abstract class Wechat {
   abstract function getAccessToken(): string;
 
   /**
-   * 获取客户端
+   * 初始化配置
    */
-  public function getClient()
+  public function initConfig(array $options)
   {
+    $proertys = get_object_vars($this);
+    
+    foreach ($proertys as $key => $value) {
+      if (isset($options[$key])) {
+        $this->{$key} = $options[$key];
+      }
+    }
+
     if ($this->http == null) {
       $this->http = new Request();
     }
 
+    if ($this->cache == null) {
+      $this->cache = new Cache();
+    }
+  }
+
+  /**
+   * 获取客户端
+   */
+  public function getClient()
+  {
     return $this;
   }
 
@@ -40,7 +74,6 @@ abstract class Wechat {
    */
   public function getAppid(): string
   {
-    var_dump(get_object_vars($this));
     return $this->appid??null;
   }
 
@@ -63,9 +96,9 @@ abstract class Wechat {
   /**
    * 网络请求
    */
-  public function httpPost()
+  public function httpPost($uri, $options = [])
   {
-    // $this->handleErrors();
+    return $this->sendForm('post', $uri, $options);
   }
 
   /**
@@ -73,8 +106,7 @@ abstract class Wechat {
    */
   public function httpGet($uri)
   {
-    var_dump(func_get_args());
-    $this->sendForm('get', $uri);
+    return $this->sendForm('get', $uri);
   }
 
   /**
@@ -83,8 +115,10 @@ abstract class Wechat {
   public function sendForm($method, $uri, $options = [])
   {
     $this->handleBefore();
-    $this->http->{$method}($uri, $options);
+    $this->http->{$method}($this->baseUrl.$uri, $options);
     $this->handleErrors();
+
+    return $this->http->getResponse();
   }
 
   /**

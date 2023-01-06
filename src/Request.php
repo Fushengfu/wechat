@@ -149,6 +149,14 @@ class Request
     }
 
     /**
+     * 获取状态码
+     */
+    public function getStatusCode()
+    {
+        return $this->statusCode;
+    }
+
+    /**
      * 获取响应数据
      */
     public function getResponse()
@@ -173,7 +181,7 @@ class Request
      */
     public function toJson()
     {
-        return json_decode($this->getResponse(), true);
+        return json_encode($this->toArray(), JSON_UNESCAPED_UNICODE);
     }
 
     /** 
@@ -216,11 +224,13 @@ class Request
     {
         if (!is_array($data)) return $data;
 
-        foreach ($data as $key => $value) if (is_object($value) && $value instanceof \CURLFile) {
-            $build = false;
-        } elseif (is_string($value) && class_exists('CURLFile', false) && stripos($value, '@') === 0) {
-            if (($filename = realpath(trim($value, '@'))) && file_exists($filename)) {
-                list($build, $data[$key]) = [false, new \CURLFile($filename)];
+        foreach ($data as $key => $item) {
+            if (is_object($item) && $item instanceof \CURLFile) {
+                $build = false;
+            } elseif (is_string($item) && class_exists('CURLFile', false) && stripos($item, '@') === 0) {
+                if (($filename = realpath(trim($item, '@'))) && file_exists($filename)) {
+                    list($build, $data[$key]) = [false, new \CURLFile($filename)];
+                }
             }
         }
         return $build ? http_build_query($data) : $data;
