@@ -1,4 +1,6 @@
 <?php
+namespace Fushengfu\Wechat\work\traits;
+
 /**
  * 客户联系
  */
@@ -9,7 +11,7 @@ trait ExternalcontactTrait {
   public function getFollowUserList()
   {
     $this->httpGet('/cgi-bin/externalcontact/get_follow_user_list?access_token='.$this->getAccessToken());
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -18,286 +20,297 @@ trait ExternalcontactTrait {
   public function getExternalUserList(string $userid)
   {
     $this->httpGet("/cgi-bin/externalcontact/list?access_token={$this->getAccessToken()}&userid={$userid}");
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
    * 获取客户详情
    */
-  public function getExternalUserInfo(string $externalUserid, $cursor)
+  public function getExternalUserInfo(string $externalUserid, $cursor = '')
   {
     $this->httpGet("/cgi-bin/externalcontact/get?access_token={$this->getAccessToken()}&external_userid={$externalUserid}&cursor={$cursor}");
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
    * 批量获取客户详情
    */
-  public function batchGetExternalUserInfo(string $data)
+  public function batchGetExternalUserInfo(array $useridList, $limit = 100, $cursor = '')
   {
     $uri = "/cgi-bin/externalcontact/batch/get_by_user?access_token={$this->getAccessToken()}";
-    $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    $this->httpPost($uri, json_encode([
+      "userid_list"=> $useridList,
+      "cursor"=> $cursor,
+      "limit"=> $limit
+    ]));
+    return $this->getResponse();
   }
 
   /**
    * 修改客户备注信息
    */
-  public function remark(string $data)
+  public function remark(array $data)
   {
     $uri = "/cgi-bin/externalcontact/remark?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
    * 企业主体unionid转换为第三方external_userid
    */
-  public function unionidToExternalUserid(string $data)
+  public function unionidToExternalUserid(array $data)
   {
     $uri = "/cgi-bin/externalcontact/unionid_to_external_userid?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
    * 第三方主体unionid转换为第三方external_userid
    */
-  public function unionidToExternalUserid3rd(string $data)
+  public function unionidToExternalUserid3rd(array $data)
   {
     $uri = "/cgi-bin/service/externalcontact/unionid_to_external_userid_3rd?suite_access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
    * 代开发应用external_userid转换
    */
-  public function toServiceExternalUserid(string $data)
+  public function toServiceExternalUserid(array $data)
   {
     $uri = "/cgi-bin/externalcontact/to_service_external_userid?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
    * 获取企业标签库
    */
-  public function getCorpTagList(string $data)
+  public function getCorpTagList(array $data = [])
   {
     $uri = "/cgi-bin/externalcontact/get_corp_tag_list?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
    * 添加企业客户标签
    */
-  public function addCorpTag(string $data)
+  public function addCorpTag(array $data)
   {
     $uri = "/cgi-bin/externalcontact/add_corp_tag?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
    * 编辑企业客户标签
    */
-  public function editCorpTag(string $data)
+  public function editCorpTag(array $data)
   {
     $uri = "/cgi-bin/externalcontact/edit_corp_tag?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
    * 删除企业客户标签
    */
-  public function delCorpTag(string $data)
+  public function delCorpTag(array $data)
   {
     $uri = "/cgi-bin/externalcontact/del_corp_tag?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
    * 编辑客户企业标签
    */
-  public function markTag(string $data)
+  public function markTag(array $data)
   {
     $uri = "/cgi-bin/externalcontact/mark_tag?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
    * 分配在职成员的客户
    */
-  public function transferCustomer(string $data)
+  public function transferCustomer(array $data)
   {
     $uri = "/cgi-bin/externalcontact/transfer_customer?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
    * 查询客户接替状态
    */
-  public function transferResult(string $data)
+  public function transferResult(array $data)
   {
     $uri = "/cgi-bin/externalcontact/transfer_result?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
    * 分配在职成员的客户群
    */
-  public function onjobTransfer(string $data)
+  public function onjobTransfer(array $data)
   {
     $uri = "/cgi-bin/externalcontact/groupchat/onjob_transfer?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
    * 获取待分配的离职成员列表
    */
-  public function getUnassignedList(string $data)
+  public function getUnassignedList(array $data = [])
   {
     $uri = "/cgi-bin/externalcontact/get_unassigned_list?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
    * 分配离职成员的客户
    */
-  public function resignedTransferCustomer(string $data)
+  public function resignedTransferCustomer(array $data)
   {
     $uri = "/cgi-bin/externalcontact/resigned/transfer_customer?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
    * 查询客户接替状态
    */
-  public function resignedTransferResult(string $data)
+  public function resignedTransferResult(array $data)
   {
     $uri = "/cgi-bin/externalcontact/resigned/transfer_result?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
    * 分配离职成员的客户群
    */
-  public function groupchatTransfer(string $data)
+  public function groupchatTransfer(array $data)
   {
     $uri = "/cgi-bin/externalcontact/groupchat/transfer?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
    * 获取客户群列表
    */
-  public function groupchatList(string $data)
+  public function groupchatList(array $data)
   {
     $uri = "/cgi-bin/externalcontact/groupchat/list?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
    * 获取客户群详情
    */
-  public function getGroupchatDetail(string $data)
+  public function getGroupchatDetail(string $chatId, $needName = 1)
   {
     $uri = "/cgi-bin/externalcontact/groupchat/get?access_token={$this->getAccessToken()}";
-    $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    $this->httpPost($uri, json_encode([
+      'chat_id'=> $chatId,
+      'need_name'=> $needName,
+    ]));
+    return $this->getResponse();
   }
 
   /**
    * 客户群opengid转换
    */
-  public function opengidToChatid(string $data)
+  public function opengidToChatid(string $opengid)
   {
     $uri = "/cgi-bin/externalcontact/opengid_to_chatid?access_token={$this->getAccessToken()}";
-    $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    $this->httpPost($uri, json_encode([
+      'opengid'=> $opengid
+    ]));
+    return $this->getResponse();
   }
 
   /**
    * 配置客户联系「联系我」方式
    */
-  public function addContactWay(string $data)
+  public function addContactWay(array $data)
   {
     $uri = "/cgi-bin/externalcontact/add_contact_way?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
    * 获取企业已配置的「联系我」方式
    */
-  public function getContactWay(string $data)
+  public function getContactWay(string $configId)
   {
     $uri = "/cgi-bin/externalcontact/get_contact_way?access_token={$this->getAccessToken()}";
-    $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    $this->httpPost($uri, json_encode([
+      'config_id'=> $configId
+    ]));
+    return $this->getResponse();
   }
 
   /**
    * 获取企业已配置的「联系我」列表
    */
-  public function listContactWay(string $data)
+  public function listContactWay(array $data = [])
   {
     $uri = "/cgi-bin/externalcontact/list_contact_way?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
    * 更新企业已配置的「联系我」方式
    */
-  public function updateContactWay(string $data)
+  public function updateContactWay(array $data)
   {
     $uri = "/cgi-bin/externalcontact/update_contact_way?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
    * 删除企业已配置的「联系我」方式
    */
-  public function delContactWay(string $data)
+  public function delContactWay(array $data)
   {
     $uri = "/cgi-bin/externalcontact/del_contact_way?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
    * 结束临时会话
    */
-  public function closeTempChat(string $data)
+  public function closeTempChat(array $data)
   {
     $uri = "/cgi-bin/externalcontact/close_temp_chat?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
    * 创建发表任务
    */
-  public function addMomentTask(string $data)
+  public function addMomentTask(array $data)
   {
     $uri = "/cgi-bin/externalcontact/add_moment_task?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -307,7 +320,7 @@ trait ExternalcontactTrait {
   {
     $uri = "/cgi-bin/externalcontact/get_moment_task_result?access_token={$this->getAccessToken()}&jobid={$jobid}";
     $this->httpGet($uri);
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -317,7 +330,7 @@ trait ExternalcontactTrait {
   {
     $uri = "/cgi-bin/externalcontact/cancel_moment_task?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -327,17 +340,25 @@ trait ExternalcontactTrait {
   {
     $uri = "/cgi-bin/externalcontact/get_moment_list?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
    * 获取客户朋友圈企业发表的列表
    */
+  // {
+  //   "start_time":1605000000,
+  //   "end_time":1605172726,
+  //   "creator":"zhangsan",
+  //   "filter_type":1,
+  //   "cursor":"CURSOR",
+  //   "limit":10
+  // }
   public function getMomentTask(array $data)
   {
     $uri = "/cgi-bin/externalcontact/get_moment_task?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -347,7 +368,7 @@ trait ExternalcontactTrait {
   {
     $uri = "/cgi-bin/externalcontact/get_moment_customer_list?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -357,7 +378,7 @@ trait ExternalcontactTrait {
   {
     $uri = "/cgi-bin/externalcontact/get_moment_send_result?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -367,7 +388,7 @@ trait ExternalcontactTrait {
   {
     $uri = "/cgi-bin/externalcontact/get_moment_comments?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -377,7 +398,7 @@ trait ExternalcontactTrait {
   {
     $uri = "/cgi-bin/externalcontact/add_msg_template?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -387,7 +408,7 @@ trait ExternalcontactTrait {
   {
     $uri = "/cgi-bin/externalcontact/remind_groupmsg_send?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -397,7 +418,7 @@ trait ExternalcontactTrait {
   {
     $uri = "/cgi-bin/externalcontact/cancel_groupmsg_send?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -407,7 +428,7 @@ trait ExternalcontactTrait {
   {
     $uri = "/cgi-bin/externalcontact/get_groupmsg_list_v2?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -417,7 +438,7 @@ trait ExternalcontactTrait {
   {
     $uri = "/cgi-bin/externalcontact/get_groupmsg_task?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -427,7 +448,7 @@ trait ExternalcontactTrait {
   {
     $uri = "/cgi-bin/externalcontact/get_groupmsg_send_result?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -437,7 +458,7 @@ trait ExternalcontactTrait {
   {
     $uri = "/cgi-bin/externalcontact/send_welcome_msg?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -447,7 +468,7 @@ trait ExternalcontactTrait {
   {
     $uri = "/cgi-bin/externalcontact/group_welcome_template/add?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -457,7 +478,7 @@ trait ExternalcontactTrait {
   {
     $uri = "/cgi-bin/externalcontact/group_welcome_template/edit?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -467,7 +488,7 @@ trait ExternalcontactTrait {
   {
     $uri = "/cgi-bin/externalcontact/group_welcome_template/get?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -477,7 +498,7 @@ trait ExternalcontactTrait {
   {
     $uri = "/cgi-bin/externalcontact/group_welcome_template/del?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -487,7 +508,7 @@ trait ExternalcontactTrait {
   {
     $uri = "/cgi-bin/externalcontact/get_user_behavior_data?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -498,7 +519,7 @@ trait ExternalcontactTrait {
   {
     $uri = "/cgi-bin/externalcontact/groupchat/statistic?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -509,7 +530,7 @@ trait ExternalcontactTrait {
   {
     $uri = "/cgi-bin/externalcontact/groupchat/statistic_group_by_day?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -519,7 +540,7 @@ trait ExternalcontactTrait {
   {
     $uri = "/cgi-bin/externalcontact/add_product_album?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -529,7 +550,7 @@ trait ExternalcontactTrait {
   {
     $uri = "/cgi-bin/externalcontact/get_product_album?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -539,7 +560,7 @@ trait ExternalcontactTrait {
   {
     $uri = "/cgi-bin/externalcontact/get_product_album_list?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -549,7 +570,7 @@ trait ExternalcontactTrait {
   {
     $uri = "/cgi-bin/externalcontact/update_product_album?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -559,7 +580,7 @@ trait ExternalcontactTrait {
   {
     $uri = "/cgi-bin/externalcontact/delete_product_album?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -569,27 +590,29 @@ trait ExternalcontactTrait {
   {
     $uri = "/cgi-bin/externalcontact/add_intercept_rule?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
    * 获取敏感词规则列表
    */
-  public function getInterceptRuleList(array $data)
+  public function getInterceptRuleList()
   {
     $uri = "/cgi-bin/externalcontact/get_intercept_rule_list?access_token={$this->getAccessToken()}";
-    $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    $this->httpGet($uri);
+    return $this->getResponse();
   }
 
   /**
    * 获取敏感词规则详情
    */
-  public function getInterceptRule(array $data)
+  public function getInterceptRule(int $ruleId)
   {
     $uri = "/cgi-bin/externalcontact/get_intercept_rule?access_token={$this->getAccessToken()}";
-    $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    $this->httpPost($uri, json_encode([
+      'rule_id'=> $ruleId
+    ]));
+    return $this->getResponse();
   }
 
   /**
@@ -599,7 +622,7 @@ trait ExternalcontactTrait {
   {
     $uri = "/cgi-bin/externalcontact/update_intercept_rule?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -609,7 +632,7 @@ trait ExternalcontactTrait {
   {
     $uri = "/cgi-bin/externalcontact/del_intercept_rule?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -619,159 +642,9 @@ trait ExternalcontactTrait {
   {
     $uri = "/cgi-bin/media/upload_attachment?access_token={$this->getAccessToken()}&media_type={$data['media_type']}&attachment_type={$data['attachment_type']}";
     $this->httpPost($uri, $data);
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
-
-  /**
-   * 添加客服帐号
-   */
-  public function kfAccountAdd(array $data)
-  {
-    $uri = "/cgi-bin/kf/account/add?access_token={$this->getAccessToken()}";
-    $this->httpPost($uri, $data);
-    return $this->http->getResponse();
-  }
-
-  /**
-   * 删除客服帐号
-   */
-  public function kfAccountDel(array $data)
-  {
-    $uri = "/cgi-bin/kf/account/del?access_token={$this->getAccessToken()}";
-    $this->httpPost($uri, $data);
-    return $this->http->getResponse();
-  }
-
-  /**
-   * 修改客服帐号
-   */
-  public function kfAccountUpdate(array $data)
-  {
-    $uri = "/cgi-bin/kf/account/update?access_token={$this->getAccessToken()}";
-    $this->httpPost($uri, $data);
-    return $this->http->getResponse();
-  }
-
-  /**
-   * 获取客服帐号列表
-   */
-  public function kfAccountList(array $data)
-  {
-    $uri = "/cgi-bin/kf/account/list?access_token={$this->getAccessToken()}";
-    $this->httpPost($uri, $data);
-    return $this->http->getResponse();
-  }
-
-  /**
-   * 获取客服帐号链接
-   */
-  public function kfAddContactWay(array $data)
-  {
-    $uri = "/cgi-bin/kf/add_contact_way?access_token={$this->getAccessToken()}";
-    $this->httpPost($uri, $data);
-    return $this->http->getResponse();
-  }
-
-  /**
-   * 添加接待人员
-   */
-  public function kfServicerAdd(array $data)
-  {
-    $uri = "/cgi-bin/kf/servicer/add?access_token={$this->getAccessToken()}";
-    $this->httpPost($uri, $data);
-    return $this->http->getResponse();
-  }
-
-  /**
-   * 删除接待人员
-   */
-  public function kfServicerDel(array $data)
-  {
-    $uri = "/cgi-bin/kf/servicer/del?access_token={$this->getAccessToken()}";
-    $this->httpPost($uri, $data);
-    return $this->http->getResponse();
-  }
-
-  /**
-   * 删除接待人员
-   */
-  public function kfServicerList()
-  {
-    $uri = "/cgi-bin/kf/servicer/list?access_token={$this->getAccessToken()}";
-    $this->httpGet($uri);
-    return $this->http->getResponse();
-  }
-
-  /**
-   * 获取会话状态
-   */
-  public function kfServiceStateGet()
-  {
-    $uri = "/cgi-bin/kf/service_state/get?access_token={$this->getAccessToken()}";
-    $this->httpGet($uri);
-    return $this->http->getResponse();
-  }
-
-  /**
-   * 变更会话状态
-   */
-  public function kfServiceStateTrans()
-  {
-    $uri = "/cgi-bin/kf/service_state/trans?access_token={$this->getAccessToken()}";
-    $this->httpGet($uri);
-    return $this->http->getResponse();
-  }
-
-  /**
-   * 发送消息
-   */
-  public function kfSendMsg(array $data)
-  {
-    $uri = "/cgi-bin/kf/send_msg?access_token={$this->getAccessToken()}";
-    $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
-  }
-
-  /**
-   * 获取客户基础信息
-   */
-  public function kfCustomerBatchget(array $data)
-  {
-    $uri = "/cgi-bin/kf/customer/batchget?access_token={$this->getAccessToken()}";
-    $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
-  }
-
-  /**
-   * 获取视频号绑定状态
-   */
-  public function getCorpQualification()
-  {
-    $uri = "/cgi-bin/kf/get_corp_qualification?access_token={$this->getAccessToken()}";
-    $this->httpGet($uri);
-    return $this->http->getResponse();
-  }
-
-  /**
-   * 获取「客户数据统计」企业汇总数据
-   */
-  public function getCorpStatistic(array $data)
-  {
-    $uri = "/cgi-bin/kf/get_corp_statistic?access_token={$this->getAccessToken()}";
-    $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
-  }
-
-  /**
-   * 获取「客户数据统计」接待人员明细数据
-   */
-  public function getServicerStatistic(array $data)
-  {
-    $uri = "/cgi-bin/kf/get_servicer_statistic?access_token={$this->getAccessToken()}";
-    $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
-  }
-
+  
   /**
    * 企业和服务商可通过此接口获取企业的对外收款记录
    */
@@ -779,7 +652,7 @@ trait ExternalcontactTrait {
   {
     $uri = "/cgi-bin/externalpay/get_bill_list?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -789,6 +662,6 @@ trait ExternalcontactTrait {
   {
     $uri = "/cgi-bin/externalpay/get_payment_info?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 }

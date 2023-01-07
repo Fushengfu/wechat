@@ -109,6 +109,7 @@ class Request
         if (strtolower($method) === 'post') {
             curl_setopt($curl, CURLOPT_POST, true);
             curl_setopt($curl, CURLOPT_POSTFIELDS, $this->setFormData($options['data']));
+            var_dump('HHHHHHHHHHHH',$this->setFormData($options['data']));
         }
 
         // 请求超时设置
@@ -179,9 +180,9 @@ class Request
     /**
      * 转json
      */
-    public function toJson()
+    public function toJson(bool $flag = false)
     {
-        return json_encode($this->toArray(), JSON_UNESCAPED_UNICODE);
+        return json_encode($this->toArray(), $flag ? JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT : JSON_UNESCAPED_UNICODE);
     }
 
     /** 
@@ -228,11 +229,12 @@ class Request
             if (is_object($item) && $item instanceof \CURLFile) {
                 $build = false;
             } elseif (is_string($item) && class_exists('CURLFile', false) && stripos($item, '@') === 0) {
-                if (($filename = realpath(trim($item, '@'))) && file_exists($filename)) {
-                    list($build, $data[$key]) = [false, new \CURLFile($filename)];
+                if (($filePath = realpath(trim($item, '@'))) && file_exists($filePath)) {
+                    list($build, $data[$key]) = [false, new \CURLFile($filePath)];
                 }
             }
         }
+
         return $build ? http_build_query($data) : $data;
     }
 

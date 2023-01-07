@@ -30,14 +30,28 @@ abstract class Wechat {
   protected $componentAccessToken;
 
   /**
+   * 异常状态码
+   */
+  protected $errcode = 0;
+
+  /**
+   * 错误信息
+   */
+  protected $errmsg;
+
+  /**
    * 接口基础域名
    */
   protected $baseUrl;
+
+  const OK = 0;
 
   /**
    * 获取access_token
    */
   abstract function getAccessToken(): string;
+
+  abstract function getErrText(): void;
 
   /**
    * 初始化配置
@@ -80,17 +94,37 @@ abstract class Wechat {
   /**
    * 异常处理
    */
-  protected function handleErrors()
+  protected function handleFinish()
   {
+    $response = $this->toArray();
+
+    /**
+     * 请求接口返回异常状态码
+     */
+    if ($response['errcode']??false) {
+      $this->errcode = $response['errcode'];
+    }
+
+    /**
+     * 请求接口返回错误信息
+     */
+    if ($response['errmsg']??false) {
+      $this->errmsg = $response['errmsg'];
+      $this->getErrText();
+    }
+
     echo "接口请求后调用\n";
   }
 
   /**
    * 请求前调用
    */
-  protected function handleBefore()
+  protected function handleBefore($uri, $params)
   {
+    $this->errcode = 0;
     echo "接口请求前调调用\n";
+
+    var_dump($uri, $params);
   }
 
   /**
@@ -114,11 +148,70 @@ abstract class Wechat {
    */
   public function sendForm($method, $uri, $options = [])
   {
-    $this->handleBefore();
+    /**
+     * 请求前操作
+     */
+    $this->handleBefore($this->baseUrl.$uri, $options);
+
+    /**
+     * 发情求口请求
+     */
     $this->http->{$method}($this->baseUrl.$uri, $options);
-    $this->handleErrors();
+
+    /**
+     * 请求结束后操作
+     */
+    $this->handleFinish();
 
     return $this->http->getResponse();
+  }
+
+  /**
+   * 获取当前错误码
+   */
+  public function getErrcode()
+  {
+    return $this->errcode;
+  }
+
+  /**
+   * 获取当前错误码
+   */
+  public function getErrmsg()
+  {
+    return $this->errmsg;
+  }
+
+  /**
+   * 获取当前状态码
+   */
+  public function getStatusCode()
+  {
+    return $this->http->getStatusCode();
+  }
+
+  /**
+   * 获取原始响应数据
+   */
+  public function getResponse()
+  {
+    return $this->http->getResponse();
+  }
+
+  /**
+   * 转数组
+   */
+  public function toArray()
+  {
+    return $this->http->toArray();
+  }
+
+  /**
+   * 转json
+   */
+  public function toJson(bool $outofjson = false)
+  {
+    return $this->http->toJson($outofjson);
   }
 
   /**

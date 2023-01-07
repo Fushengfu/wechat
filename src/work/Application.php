@@ -4,7 +4,14 @@ namespace Fushengfu\Wechat\work;
 
 use Fushengfu\Wechat\Wechat;
 use Fushengfu\Wechat\work\traits\{
-  Service
+  ServiceTrait,
+  UserTrait,
+  AgentTrait,
+  ExternalcontactTrait,
+  MediaTrait,
+  KfTrait,
+  DepartmentTrait,
+  TagTrait
 };
 
 
@@ -37,6 +44,13 @@ class Application extends Wechat {
 
   protected $encodingAesKey;
 
+  /**
+   * 服务商
+   */
+  protected $corpid;
+
+  protected $providerSecret;
+
 	/**
 	 * 代理IP
 	 */
@@ -47,7 +61,14 @@ class Application extends Wechat {
 	 */
 	public $proxyPort = 0;
 
-  use Service;
+  use ServiceTrait,
+  UserTrait,
+  AgentTrait,
+  ExternalcontactTrait,
+  MediaTrait,
+  KfTrait,
+  DepartmentTrait,
+  TagTrait;
 
   /**
    * 构造函数
@@ -58,47 +79,15 @@ class Application extends Wechat {
   }
 
   /**
-   * 获取access_token
+   * 获取错误信息
    */
-  public function getAccessToken(): string
+  public function getErrText(): void
   {
-    if ($this->suiteAccessToken) {
-      return $this->suiteAccessToken;
-    }
-    
-    $this->http->post('/cgi-bin/service/get_suite_token', json_encode([
-      "suite_id"=> $this->suiteId,
-      "suite_secret"=> $this->suiteSecret,
-      "suite_ticket"=> $this->suiteTicket
-    ]));
-    var_dump($this->http->getRequestHeaders());
-    return $this->http->getResponse();
-  }
+    $errText = ErrorCode::getError($this->getErrcode());
 
-  /**
-   * 获取access_token
-   */
-  public function getSuiteAccessToken(): string
-  {
-    if ($this->suiteAccessToken) {
-      return $this->suiteAccessToken;
+    if ($errText) {
+      $this->errmsg = $errText;
     }
-    
-    $this->http->post('/cgi-bin/service/get_suite_token', json_encode([
-      "suite_id"=> $this->suiteId,
-      "suite_secret"=> $this->suiteSecret,
-      "suite_ticket"=> $this->suiteTicket
-    ]));
-    var_dump($this->http->getRequestHeaders());
-    return $this->http->getResponse();
-  }
-
-  /**
-   * 设置suiteAccessToken
-   */
-  public function setSuiteAccessToken(string $suiteAccessToken)
-  {
-    $this->suiteAccessToken = $suiteAccessToken;
   }
 
   /**

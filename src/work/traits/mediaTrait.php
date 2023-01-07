@@ -1,4 +1,6 @@
 <?php
+namespace Fushengfu\Wechat\work\traits;
+
 trait MediaTrait {
   /**
    * 上传临时素材
@@ -7,7 +9,7 @@ trait MediaTrait {
   {
     $uri = "/cgi-bin/media/upload?access_token={$this->getAccessToken()}&type={$data['type']}";
     $this->httpPost($uri, $data);
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -18,16 +20,16 @@ trait MediaTrait {
   {
     $uri = "/cgi-bin/media/uploadimg?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, $data);
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
    * 获取临时素材
    */
-  public function mediaGet(string $mediaId)
+  public function mediaGetBymediaId(string $mediaId)
   {
     $uri = "/cgi-bin/media/get?access_token={$this->getAccessToken()}&media_id={$mediaId}";
     $this->httpGet($uri);
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 }

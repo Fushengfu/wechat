@@ -7,7 +7,7 @@ trait MessageTrait {
   {
     $uri = "/cgi-bin/message/send?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -17,7 +17,7 @@ trait MessageTrait {
   {
     $uri = "/cgi-bin/message/update_template_card?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -27,6 +27,6 @@ trait MessageTrait {
   {
     $uri = "/cgi-bin/message/recall?access_token={$this->getAccessToken()}";
     $this->httpPost($uri, json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 }
