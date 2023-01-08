@@ -11,7 +11,8 @@ use Fushengfu\Wechat\work\traits\{
   MediaTrait,
   KfTrait,
   DepartmentTrait,
-  TagTrait
+  TagTrait,
+  LicenseTrait
 };
 
 
@@ -68,7 +69,8 @@ class Application extends Wechat {
   MediaTrait,
   KfTrait,
   DepartmentTrait,
-  TagTrait;
+  TagTrait,
+  LicenseTrait;
 
   /**
    * 构造函数
