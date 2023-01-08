@@ -201,7 +201,7 @@ class Request
         foreach($data as $key => $item) {
             if(is_array($item)) {
                 $this->xml->startElement($key);
-                $this->toXml($item, TRUE);
+                $this->toXml($item, true);
                 $this->xml->endElement();
                 continue;
             }

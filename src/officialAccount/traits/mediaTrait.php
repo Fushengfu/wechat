@@ -9,7 +9,7 @@ trait MediaTrait {
   public function uploadimg(array $data)
   {
     $this->httpPost('/cgi-bin/media/uploadimg?access_token='.$this->getAccessToken(), $data);
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -18,7 +18,7 @@ trait MediaTrait {
   public function uploadnews(array $data)
   {
     $this->httpPost('/cgi-bin/media/uploadnews?access_token='.$this->getAccessToken(), json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -27,7 +27,7 @@ trait MediaTrait {
   public function messageMassSend(array $data)
   {
     $this->httpPost('/cgi-bin/message/mass/send?access_token='.$this->getAccessToken(), json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -36,7 +36,7 @@ trait MediaTrait {
   public function messageMassDelete(array $data)
   {
     $this->httpPost('/cgi-bin/message/mass/delete?access_token='.$this->getAccessToken(), json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -45,7 +45,7 @@ trait MediaTrait {
   public function messageMassPreview(array $data)
   {
     $this->httpPost('/cgi-bin/message/mass/preview?access_token='.$this->getAccessToken(), json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -54,7 +54,7 @@ trait MediaTrait {
   public function messageMassGet(array $data)
   {
     $this->httpPost('/cgi-bin/message/mass/get?access_token='.$this->getAccessToken(), json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -63,7 +63,7 @@ trait MediaTrait {
   public function messageMassSpeedSet(array $data)
   {
     $this->httpPost('/cgi-bin/message/mass/speed/set?access_token='.$this->getAccessToken(), json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -72,7 +72,7 @@ trait MediaTrait {
   public function upload(array $data)
   {
     $this->httpPost("/cgi-bin/media/upload?access_token={$this->getAccessToken()}&type={$data['type']}", $data);
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -81,7 +81,7 @@ trait MediaTrait {
   public function mediaGet(string $mediaId)
   {
     $this->httpGet("/cgi-bin/media/get?access_token={$this->getAccessToken()}&media_id={$mediaId}");
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -90,7 +90,7 @@ trait MediaTrait {
   public function getMaterial(array $data)
   {
     $this->httpPost("/cgi-bin/material/get_material?access_token={$this->getAccessToken()}", json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -99,7 +99,7 @@ trait MediaTrait {
   public function delMaterial(array $data)
   {
     $this->httpPost("/cgi-bin/material/del_material?access_token={$this->getAccessToken()}", json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -108,7 +108,7 @@ trait MediaTrait {
   public function getMaterialcount()
   {
     $this->httpGet("/cgi-bin/material/get_materialcount?access_token={$this->getAccessToken()}");
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -117,6 +117,6 @@ trait MediaTrait {
   public function batchgetMaterial(array $data)
   {
     $this->httpPost("/cgi-bin/material/batchget_material?access_token={$this->getAccessToken()}", json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 }

@@ -1,10 +1,11 @@
 <?php
+namespace Fushengfu\Wechat\applet;
+
 // +----------------------------------------------------------------------
 // | Date 03-21
 // +----------------------------------------------------------------------
 // | Author: fushengfu <shengfu8161980541@qq.com>
 // +----------------------------------------------------------------------
-namespace Fushengfu\Wechat\officialAccount;
 
 class ErrCode {
     public static $errCode=array(

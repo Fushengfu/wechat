@@ -31,7 +31,7 @@ trait ServiceTrait {
         $this->httpGet("/cgi-bin/gettoken?corpid={$this->appid}&corpsecret={$this->secret}");
       }
 
-      if ($this->getStatusCode() == 200 && self::OK == $this->getErrcode()) {
+      if ($this->getStatusCode() == 200 && $this->successCode() == $this->getErrcode()) {
         $response = $this->toArray();
         $this->cache->set($cacheKey, $this->toJson(), (int)$response['expires_in'] - 60);
       }
@@ -55,7 +55,7 @@ trait ServiceTrait {
         "suite_ticket"=> $this->suiteTicket
       ]));
 
-      if ($this->getStatusCode() == 200 && self::OK == $this->getErrcode()) {
+      if ($this->getStatusCode() == 200 && $this->successCode() == $this->getErrcode()) {
         $response = $this->toArray();
         $this->cache->set('suite_access_token', $this->toJson(), (int)$response['expires_in'] - 60);
       }
@@ -79,7 +79,7 @@ trait ServiceTrait {
         "provider_secret"=> $this->providerSecret
       ]));
   
-      if ($this->getStatusCode() == 200 && self::OK == $this->getErrcode()) {
+      if ($this->getStatusCode() == 200 && $this->successCode() == $this->getErrcode()) {
         $response = $this->toArray();
         $this->cache->set('provider_access_token', $this->toJson(), (int)$response['expires_in'] - 60);
       }
@@ -295,7 +295,7 @@ trait ServiceTrait {
       $uri = "/cgi-bin/get_jsapi_ticket?access_token={$this->getSuiteAccessToken()}";
       $this->httpGet($uri);
 
-      if ($this->getStatusCode() == 200 && self::OK == $this->getErrcode()) {
+      if ($this->getStatusCode() == 200 && $this->successCode() == $this->getErrcode()) {
         $response = $this->toArray();
         $this->cache->set($cacheKey, $this->toJson(), (int)$response['expires_in'] - 60);
       }
@@ -317,7 +317,7 @@ trait ServiceTrait {
       $uri = "/cgi-bin/ticket/get?access_token={$this->getSuiteAccessToken()}&type=agent_config";
       $this->httpGet($uri);
 
-      if ($this->getStatusCode() == 200 && self::OK == $this->getErrcode()) {
+      if ($this->getStatusCode() == 200 && $this->successCode() == $this->getErrcode()) {
         $response = $this->toArray();
         $this->cache->set($this->suiteId.'agent_jsapi_ticket', $this->toJson(), (int)$response['expires_in'] - 60);
       }

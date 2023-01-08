@@ -122,9 +122,8 @@ abstract class Wechat {
   protected function handleBefore($uri, $params)
   {
     $this->errcode = 0;
+    $this->errmsg = null;
     echo "接口请求前调调用\n";
-
-    var_dump($uri, $params);
   }
 
   /**
@@ -203,7 +202,15 @@ abstract class Wechat {
    */
   public function Ok()
   {
-    return $this->getStatusCode() == 200 && self::OK == $this->getErrcode();
+    return $this->getStatusCode() == 200 && $this->successCode() == $this->getErrcode();
+  }
+
+  /**
+   * 成功响应码
+   */
+  public function successCode()
+  {
+    return self::OK;
   }
 
   /**

@@ -1,5 +1,4 @@
 <?php
-
 namespace Fushengfu\Wechat\officialAccount;
 
 use Fushengfu\Wechat\Wechat;
@@ -15,15 +14,20 @@ class Application extends Wechat {
    */
   protected $appid;
 
+  protected $cli = true;
+
 	protected $secret;
 
+	protected $accessToken;
+
+  /**
+   * 第三方平台
+   */
   protected $componentAppid;
 
   protected $componentAppsecret;
 
   protected $authorizerRefreshToken;
-
-	protected $accessToken;
 
   protected $authorizerAccessToken;
 
@@ -31,7 +35,7 @@ class Application extends Wechat {
 
   protected $componentAccessToken;
 
-  use ComponentTrait,MenuTrait;
+  use ComponentTrait, MenuTrait;
 
   /**
    * 构造函数
@@ -39,6 +43,18 @@ class Application extends Wechat {
   public function __construct(array $config)
   {
     $this->initConfig($config);
+  }
+
+  /**
+   * 获取错误信息
+   */
+  public function getErrText(): void
+  {
+    $text = ErrCode::getErrText($this->getErrcode());
+
+    if ($text) {
+      $this->errmsg = $text;
+    }
   }
 
   /**

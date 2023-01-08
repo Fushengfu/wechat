@@ -9,7 +9,7 @@ trait MenuTrait {
   public function menuCreate(array $data)
   {
     $this->httpPost('/cgi-bin/menu/create?access_token='.$this->getAccessToken(), json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -18,7 +18,7 @@ trait MenuTrait {
   public function getCurrentMenu()
   {
     $this->httpGet('/cgi-bin/get_current_selfmenu_info?access_token='.$this->getAccessToken());
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -27,7 +27,7 @@ trait MenuTrait {
   public function menuDelete()
   {
     $this->httpGet('/cgi-bin/menu/delete?access_token='.$this->getAccessToken());
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -36,7 +36,7 @@ trait MenuTrait {
   public function menuAddconditional(array $data)
   {
     $this->httpPost('/cgi-bin/menu/addconditional?access_token='.$this->getAccessToken(), json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -45,7 +45,7 @@ trait MenuTrait {
   public function menuDelconditional(array $data)
   {
     $this->httpPost('/cgi-bin/menu/delconditional?access_token='.$this->getAccessToken(), json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -54,6 +54,6 @@ trait MenuTrait {
   public function menuGet()
   {
     $this->httpGet('/cgi-bin/menu/get?access_token='.$this->getAccessToken());
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 }

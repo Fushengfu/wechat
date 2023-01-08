@@ -9,7 +9,7 @@ trait Wxa {
   public function getpluginopenpid(array $data)
   {
     $this->httpPost('/wxa/getpluginopenpid?access_token='.$this->getAccessToken(), json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -18,7 +18,7 @@ trait Wxa {
   public function checkencryptedmsg(array $data)
   {
     $this->httpPost('/wxa/business/checkencryptedmsg?access_token='.$this->getAccessToken(), json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -27,7 +27,7 @@ trait Wxa {
   public function getpaidunionid()
   {
     $this->httpGet('/wxa/getpaidunionid?access_token='.$this->getAccessToken());
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -36,7 +36,7 @@ trait Wxa {
   public function getuserencryptkey(array $data)
   {
     $this->httpPost('/wxa/business/getuserencryptkey?access_token='.$this->getAccessToken(), json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -45,7 +45,7 @@ trait Wxa {
   public function getuserphonenumber(array $data)
   {
     $this->httpPost('/wxa/business/getuserphonenumber?access_token='.$this->getAccessToken(), json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -54,7 +54,7 @@ trait Wxa {
   public function getwxacode(array $data)
   {
     $this->httpPost('/wxa/getwxacode?access_token='.$this->getAccessToken(), json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -63,7 +63,7 @@ trait Wxa {
   public function getwxacodeunlimit(array $data)
   {
     $this->httpPost('/wxa/getwxacodeunlimit?access_token='.$this->getAccessToken(), json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -72,6 +72,6 @@ trait Wxa {
   public function createwxaqrcode(array $data)
   {
     $this->httpPost('/cgi-bin/wxaapp/createwxaqrcode?access_token='.$this->getAccessToken(), json_encode($data));
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 }

@@ -21,16 +21,13 @@ class Application extends Wechat {
   }
 
   /**
-   * 初始化配置
+   * 获取错误信息
    */
-  public function initConfig(array $options)
+  public function getErrText(): void
   {
-    $proertys = get_object_vars($this);
-    
-    foreach ($proertys as $key => $value) {
-      if (isset($options[$key])) {
-        $this->{$key} = $options[$key];
-      }
+    $text = ErrCode::getErrText($this->getErrcode());
+    if ($text) {
+      $this->errmsg = $text;
     }
   }
 
@@ -42,7 +39,7 @@ class Application extends Wechat {
     $uri = "/cgi-bin/token?grant_type=client_credential&appid={$this->appid}&secret={$this->secret}";
     $this->httpGet($uri);
 
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
@@ -53,7 +50,7 @@ class Application extends Wechat {
     $uri = "/sns/jscode2session?appid={$this->appid}&secret={$this->secret}&js_code={$code}&grant_type=authorization_code";
     $this->httpGet($uri);
 
-    return $this->http->getResponse();
+    return $this->getResponse();
   }
 
   /**
