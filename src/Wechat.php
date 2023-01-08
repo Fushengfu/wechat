@@ -199,6 +199,14 @@ abstract class Wechat {
   }
 
   /**
+   * 确认接口调用是否成功
+   */
+  public function Ok()
+  {
+    return $this->getStatusCode() == 200 && self::OK == $this->getErrcode();
+  }
+
+  /**
    * 转数组
    */
   public function toArray()
