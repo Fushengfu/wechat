@@ -35,6 +35,19 @@ $app = Factory::make("work", [
 
 ```
 
+```公众号
+/**
+ * $object work： 企业微信 officialAccount： 公众号 pay： 微信支付 applet：小程序
+ *
+ */
+$app = Factory::make($object, $options);
+
+$app = Factory::make("work", [
+  'appid'=> '*******',//公众号appID
+  'secret'=> '3******',//公众号secret
+]);
+```
+
 ### 接口调用示例
 ```
 //返回接口响应的原始数据
