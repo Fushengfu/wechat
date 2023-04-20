@@ -100,10 +100,6 @@ trait ComponentTrait {
    */
   public function getAccessToken($code = null): string
   {
-    if ($code) {
-      $this->cli = false;
-    }
-
     $this->authorizerRefreshToken = $this->cache->get($this->appid.'_refresh_token');
     $response = $this->cache->get($this->appid.'_access_token');
 
@@ -135,7 +131,7 @@ trait ComponentTrait {
     
         if ($this->Ok()) {
           $response = $this->toArray();
-          if ($this->cli) {
+          if (!$code) {
             $this->cache->set($this->appid.'_access_token', $this->toJson(), (int)$response['expires_in'] - 60);
           } else {
             $this->cache->set($this->appid.$response['openid'].'_access_token', $this->toJson(), (int)$response['expires_in'] - 60);
@@ -206,10 +202,10 @@ trait ComponentTrait {
   /**
    * 获取用户信息 通过网页授权 access_token 获取用户基本信息
    */
-  public function getUserInfo(string $openid, string $lang = 'zh_CN')
+  public function getUserInfo(string $openid, $from = 'cgi', string $lang = 'zh_CN')
   {
     $uri = "/cgi-bin/user/info?access_token={$this->getAccessToken()}&openid={$openid}&lang={$lang}";
-    if (!$this->cli) {
+    if ($from != 'cgi') {
       $uri = "/sns/userinfo?access_token={$this->accessToken}&openid={$openid}&lang={$lang}";
     }
     $this->httpGet($uri);

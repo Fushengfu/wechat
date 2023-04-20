@@ -114,6 +114,7 @@ abstract class Wechat {
     }
 
     echo "接口请求后调用\n";
+    var_dump($this->http->getRequestHeaders());
   }
 
   /**
@@ -124,6 +125,7 @@ abstract class Wechat {
     $this->errcode = 0;
     $this->errmsg = null;
     echo "接口请求前调调用\n";
+    echo $uri.PHP_EOL;
   }
 
   /**

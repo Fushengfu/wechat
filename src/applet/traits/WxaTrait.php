@@ -1,8 +1,7 @@
 <?php
-
 namespace Fushengfu\Wechat\applet\traits;
 
-trait Wxa {
+trait WxaTrait {
   /**
    * 获取插件用户openpid
    */

@@ -175,13 +175,13 @@ trait UserTrait {
   /**
    * 获取成员ID列表
    */
-  public function getUseridList(string $cursor, $limit = 1000)
+  public function getUseridList(string $cursor = '', $limit = 1000)
   {
     $uri = "/cgi-bin/user/list_id?access_token={$this->getAccessToken()}";
-    $this->httpPost($uri, json_encode([
+    $this->httpPost($uri, json_encode(array_filter([
       "cursor"=> $cursor,
 	    "limit"=> $limit
-    ]));
+    ])));
     return $this->getResponse();
   }
 }

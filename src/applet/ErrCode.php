@@ -8,7 +8,7 @@ namespace Fushengfu\Wechat\applet;
 // +----------------------------------------------------------------------
 
 class ErrCode {
-    public static $errCode=array(
+    public static $errCode = [
         '-1'      => '系统繁忙',
         '0'       => '请求成功',
         '10003'   => 'redirect_uri域名与后台配置不一致',
@@ -189,7 +189,7 @@ class ErrCode {
         '7000034' => '获取天气信息失败',
         '7000035' => '获取股票信息失败',
         '7000036' => 'utf8 编码转换失败',
-    );
+    ];
 
     public static function getErrText($code) {
         return self::$errCode[$code]??null;

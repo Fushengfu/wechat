@@ -204,7 +204,7 @@ trait LicenseTrait {
   /**
    * 设置企业的许可自动激活状态
    */
-  public function setAutoActiveStatus(string $autoActiveStatus = 1)
+  public function setAutoActiveStatus(int $autoActiveStatus = 1)
   {
     $uri = "/cgi-bin/license/set_auto_active_status?provider_access_token={$this->getProviderToken()}";
     $this->httpPost($uri, json_encode([

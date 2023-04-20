@@ -4,13 +4,13 @@ namespace Fushengfu\Wechat\applet;
 
 use Fushengfu\Wechat\Wechat;
 use Fushengfu\Wechat\applet\traits\{
-  Wxa
+  WxaTrait
 };
 
 
 class Application extends Wechat {
 
-  use Wxa;
+  use WxaTrait;
 
   /**
    * 构造函数
@@ -39,13 +39,18 @@ class Application extends Wechat {
     $uri = "/cgi-bin/token?grant_type=client_credential&appid={$this->appid}&secret={$this->secret}";
     $this->httpGet($uri);
 
+    if ($this->Ok()) {
+      $response = $this->toArray();
+      $this->cache->set($this->appid.'_access_token', $this->toJson(), (int)$response['expires_in'] - 60);
+    }
+
     return $this->getResponse();
   }
 
   /**
    * jscode2session
    */
-  public function jscode2session(string $code): string
+  public function jscode2session(string $code)
   {
     $uri = "/sns/jscode2session?appid={$this->appid}&secret={$this->secret}&js_code={$code}&grant_type=authorization_code";
     $this->httpGet($uri);

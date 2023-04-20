@@ -1,10 +1,16 @@
 <?php
 namespace Fushengfu\Wechat\officialAccount;
 
-use Fushengfu\Wechat\Wechat;
+use Fushengfu\Wechat\{
+  Wechat,
+  Component
+};
 use Fushengfu\Wechat\officialAccount\traits\{
   ComponentTrait,
-  MenuTrait
+  MenuTrait,
+  MediaTrait,
+  CustomserviceTrait,
+  TemplateTrait
 };
 
 
@@ -13,8 +19,6 @@ class Application extends Wechat {
    * 企业配置
    */
   protected $appid;
-
-  protected $cli = true;
 
 	protected $secret;
 
@@ -35,7 +39,7 @@ class Application extends Wechat {
 
   protected $componentAccessToken;
 
-  use ComponentTrait, MenuTrait;
+  use ComponentTrait,MenuTrait,MediaTrait,CustomserviceTrait,TemplateTrait;
 
   /**
    * 构造函数

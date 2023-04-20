@@ -109,7 +109,6 @@ class Request
         if (strtolower($method) === 'post') {
             curl_setopt($curl, CURLOPT_POST, true);
             curl_setopt($curl, CURLOPT_POSTFIELDS, $this->setFormData($options['data']));
-            var_dump('HHHHHHHHHHHH',$this->setFormData($options['data']));
         }
 
         // 请求超时设置
