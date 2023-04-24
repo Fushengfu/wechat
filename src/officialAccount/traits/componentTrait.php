@@ -2,8 +2,8 @@
 
 namespace Fushengfu\Wechat\officialAccount\traits;
 
-trait ComponentTrait {
-
+trait ComponentTrait
+{
   /**
    * 网页授权
    */

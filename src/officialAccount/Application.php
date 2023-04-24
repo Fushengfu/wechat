@@ -47,6 +47,9 @@ class Application extends Wechat {
   public function __construct(array $config)
   {
     $this->initConfig($config);
+    if (!$this->baseUrl) {
+      $this->baseUrl = 'https://api.weixin.qq.com';
+    }
   }
 
   /**

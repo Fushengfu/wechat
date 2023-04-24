@@ -115,6 +115,7 @@ abstract class Wechat {
 
     echo "接口请求后调用\n";
     var_dump($this->http->getRequestHeaders());
+    var_dump($this->getErrText());
   }
 
   /**
